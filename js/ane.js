@@ -1,0 +1,42 @@
+//画海葵
+var aneObj=function(){
+	//二次贝塞尔曲线-start point,control point,end point(sin)
+	//start point
+	this.rootx=[];
+	//end point
+	this.headx=[];
+	this.heady=[];
+	this.alpha=0;
+	//振幅
+	this.amp=[];
+};
+aneObj.prototype.num=50;
+aneObj.prototype.init=function(){
+	for(var i=0;i<this.num;i++){
+		this.rootx[i]=i*16+Math.random()*20;//[0,1)
+		this.headx[i]=this.rootx[i];
+		this.heady[i]=canHeight-250+Math.random()*50;
+		this.amp[i]=Math.random()*50+50;
+	}
+};
+aneObj.prototype.draw=function(){
+	//headx以正弦函数图像进行变化
+	this.alpha+=deltaTime*0.0008;
+	//正弦函数
+	var l=Math.sin(this.alpha);//[-1,1]
+
+	ctx2.save();
+	ctx2.globalAlpha=0.6;
+	ctx2.lineWidth=20;
+	ctx2.lineCap="round";//设置线条的顶端样式
+	ctx2.strokeStyle="#3b154e";
+	for(var i=0;i<this.num;i++){
+		ctx2.beginPath();
+		ctx2.moveTo(this.rootx[i],canHeight);
+		this.headx[i]=this.rootx[i]+l*this.amp[i];
+		//二次贝塞尔曲线
+		ctx2.quadraticCurveTo(this.rootx[i],canHeight-100,this.headx[i],this.heady[i]);
+		ctx2.stroke();
+	}
+	ctx2.restore();
+};
