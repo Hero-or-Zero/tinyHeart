@@ -49,12 +49,21 @@ var  halo;
 var dust;
 var dustPic=[];
 
+//游戏状态
+var STATE=0;//0-未开始，1-游戏开始
+
 document.body.onload=game;
 function game(){
-	init();
-	lastTime=Date.now();
-	deltaTime=0;
-	gameloop();
+	document.getElementById("btn").onclick=function(){
+		document.getElementById("cover").style.zIndex=-1;
+		this.STATE=1;//点击开始按钮，游戏状态为开始
+		if(this.STATE==1){
+			init();
+			lastTime=Date.now();
+			deltaTime=0;
+			gameloop();
+		}
+	}
 }
 function init(){
 	//获得canvas content
